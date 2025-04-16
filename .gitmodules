@@ -1,0 +1,3 @@
+[submodule "Mini-Tweeter-Protocol-Buffer"]
+	path = Mini-Tweeter-Protocol-Buffer
+	url = https://github.com/SaidakbarPardaboyev/Mini-Tweeter-Protocol-Buffer

@@ -30,8 +30,8 @@ func Load() *Config {
 	}
 
 	c.Environment = cast.ToString(getOrReturnDefault("ENVIRONMENT", "develop"))
-	c.RPCPort = cast.ToString(getOrReturnDefault("RPC_PORT", "8082"))
-	c.HTTPPort = cast.ToString(getOrReturnDefault("HTTP_PORT", "8008"))
+	c.RPCPort = cast.ToString(getOrReturnDefault("RPC_PORT", "8083"))
+	c.HTTPPort = cast.ToString(getOrReturnDefault("HTTP_PORT", "8009"))
 
 	c.PostgresHost = cast.ToString(getOrReturnDefault("POSTGRES_HOST", "localhost"))
 	c.PostgresPort = cast.ToInt(getOrReturnDefault("POSTGRES_PORT", 5432))

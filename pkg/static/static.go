@@ -75,3 +75,66 @@ var (
 			id = $1
 		`
 )
+
+var (
+	InsertTweetMediaQuery = `
+		INSERT INTO 
+			tweet_media (
+				id,
+				tweet_id,
+				media_type,
+				url
+			) VALUES ($1, $2, $3, $4)
+	`
+
+	GetTweetMediaByIDQuery = `
+		SELECT 
+			id,
+			tweet_id,
+			media_type,
+			url
+		FROM 
+			tweet_media
+		WHERE 
+			id = $1
+		`
+
+	GetListTweetMediaBaseQuery = `
+		SELECT 
+			id,
+			tweet_id,
+			media_type,
+			url
+		FROM
+			tweet_media
+		WHERE
+			tweet_id = $1
+		`
+
+	UpdateTweetMediaQuery = `
+		UPDATE 
+			tweet_media
+		SET 
+			tweet_id = $1, 
+			media_type = $2,
+			url = $3
+		WHERE
+			id = $4
+		`
+
+	DeleteTweetMediaQuery = `
+		DELETE 
+			FROM 
+				tweet_media
+		WHERE 
+			id = $1
+		`
+
+	DeleteTweetMediaWithTweetIDQuery = `
+		DELETE 
+			FROM 
+				tweet_media
+		WHERE 
+			tweet_id = $1
+		`
+)

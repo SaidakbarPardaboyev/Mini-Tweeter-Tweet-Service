@@ -13,3 +13,12 @@ type TweetsRepo interface {
 	UpdateTweet(ctx context.Context, in *pb.Tweet) error
 	DeleteTweet(ctx context.Context, ID string) error
 }
+
+type TweetMediaRepo interface {
+	CreateTweetMedia(ctx context.Context, in *pb.Media) (string, error)
+	GetTweetMedia(ctx context.Context, ID string) (*pb.Media, error)
+	GetListTweetMedia(ctx context.Context, tweetID string) (*[]*pb.Media, error)
+	UpdateTweetMedia(ctx context.Context, in *pb.Media) error
+	DeleteTweetMedia(ctx context.Context, ID string) error
+	DeleteTweetMediaWithTweetID(ctx context.Context, tweetID string) error
+}

@@ -10,18 +10,25 @@ import (
 
 type StorageI interface {
 	Tweets() repo.TweetsRepo
+	TweetMedias() repo.TweetMediaRepo
 }
 
 type storagePg struct {
-	tweets repo.TweetsRepo
+	tweets      repo.TweetsRepo
+	tweetMedias repo.TweetMediaRepo
 }
 
 func New(db *db.Postgres, log logger.Logger, cfg *config.Config) StorageI {
 	return &storagePg{
-		tweets: postgres.NewTweetsRepo(db, log, cfg),
+		tweets:      postgres.NewTweetsRepo(db, log, cfg),
+		tweetMedias: postgres.NewTweetMediaRepo(db, log, cfg),
 	}
 }
 
 func (s *storagePg) Tweets() repo.TweetsRepo {
 	return s.tweets
+}
+
+func (s *storagePg) TweetMedias() repo.TweetMediaRepo {
+	return s.tweetMedias
 }

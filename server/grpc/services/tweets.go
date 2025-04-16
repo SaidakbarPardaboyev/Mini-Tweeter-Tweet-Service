@@ -33,11 +33,30 @@ func (s *TweetsService) CreateTweet(ctx context.Context, in *pb.CreateTweetReque
 		return nil, err
 	}
 
+	for _, media := range in.Tweet.Medias {
+		media.TweetId = tweetID
+		_, err := s.storage.TweetMedias().CreateTweetMedia(ctx, media)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	return &pb.CreateTweetResponse{Id: tweetID}, nil
 }
 
 func (s *TweetsService) GetTweet(ctx context.Context, in *pb.GetTweetRequest) (*pb.Tweet, error) {
-	return s.storage.Tweets().GetTweet(ctx, in.GetId())
+	tweetResp, err := s.storage.Tweets().GetTweet(ctx, in.GetId())
+	if err != nil {
+		return nil, err
+	}
+
+	tweetMedias, err := s.storage.TweetMedias().GetListTweetMedia(ctx, in.GetId())
+	if err != nil {
+		return nil, err
+	}
+	tweetResp.Medias = *tweetMedias
+
+	return tweetResp, nil
 }
 
 func (s *TweetsService) GetListTweet(ctx context.Context, in *pb.GetListTweetRequest) (*pb.TweetList, error) {
@@ -63,6 +82,11 @@ func (s *TweetsService) UpdateTweet(ctx context.Context, in *pb.UpdateTweetReque
 
 func (s *TweetsService) DeleteTweet(ctx context.Context, in *pb.DeleteTweetRequest) (*pb.DeleteTweetResponse, error) {
 	err := s.storage.Tweets().DeleteTweet(ctx, in.Id)
+	if err != nil {
+		return &pb.DeleteTweetResponse{Success: false}, err
+	}
+
+	err = s.storage.TweetMedias().DeleteTweetMediaWithTweetID(ctx, in.Id)
 	if err != nil {
 		return &pb.DeleteTweetResponse{Success: false}, err
 	}

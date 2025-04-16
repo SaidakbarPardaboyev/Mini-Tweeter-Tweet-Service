@@ -1,47 +1,14 @@
-
 services:
-  database_staging:
-    image: postgres:15
-    container_name: Mini_Tweeter_database_staging
-    restart: always
-    environment:
-      POSTGRES_DB: mini_tweeter_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "6432:5432"
-    volumes:
-      - postgres_data_staging:/var/lib/postgresql/data
-    networks:
-      - Mini-Tweeter-network
-
-  migrate_staging:
-    container_name: Mini_Tweeter_users_service_migrate_staging
-    image: migrate/migrate:v4.15.2
-    volumes:
-      - ./migrations:/migrations
-    environment:
-      - POSTGRES_HOST=database_staging
-      - POSTGRES_PORT=5432
-      - POSTGRES_DATABASE=mini_tweeter_db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    entrypoint: migrate -path migrations/ -database "postgres://postgres:postgres@database_staging:5432/mini_tweeter_db?sslmode=disable"
-    command: up
-    restart: on-failure
-    networks:
-      - Mini-Tweeter-network
-
-  user_service_staging:
-    container_name: Mini_Tweeter_users_service_staging
+  tweet_service_staging:
+    container_name: Mini_Tweeter_tweet_service_staging
     build: 
       context: .
       dockerfile: Dockerfile
     ports:
-      - "9082:8082"
+      - "9083:8083"
     environment:
       - ENVIRONMENT=develop
-      - RPC_PORT=8082
+      - RPC_PORT=8083
       - HTTP_PORT=8008
       - POSTGRES_HOST=database_staging
       - POSTGRES_PORT=5432
@@ -57,22 +24,6 @@ services:
     restart: on-failure
     networks:
       - Mini-Tweeter-network
-
-  redis_staging:
-    image: redis:latest
-    container_name: Mini_Tweeter_redis_staging
-    restart: always
-    ports:
-      - "6379:6379"
-    networks:
-      - Mini-Tweeter-network
-    command: ["redis-server", "--appendonly", "yes"]
-    volumes:
-      - redis_data_staging:/data
-
-volumes:
-  redis_data_staging:
-  postgres_data_staging:
 
 networks:
   Mini-Tweeter-network:

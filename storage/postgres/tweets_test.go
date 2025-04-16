@@ -110,7 +110,7 @@ func TestUpdateTweet(t *testing.T) {
 	}
 }
 
-func TestDeleteUser(t *testing.T) {
+func TestDeleteTweet(t *testing.T) {
 	tweetRepo, err := Init()
 	if err != nil {
 		t.Error(fmt.Errorf("error while connecting to database: %v", err))

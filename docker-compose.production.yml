@@ -1,48 +1,15 @@
 services:
-  database_production:
-    image: postgres:15
-    container_name: Mini_Tweeter_database_production
-    restart: always
-    environment:
-      POSTGRES_DB: mini_tweeter_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5433:5432"
-    volumes:
-      - postgres_data_production:/var/lib/postgresql/data
-    networks:
-      - Mini-Tweeter-network
-
-  migrate_production:
-    container_name: Mini_Tweeter_users_service_migrate_production
-    image: migrate/migrate:v4.15.2
-    volumes:
-      - ./migrations:/migrations
-    environment:
-      - POSTGRES_HOST=database_production
-      - POSTGRES_PORT=5432
-      - POSTGRES_DATABASE=mini_tweeter_db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    entrypoint: ["/bin/sh", "-c", "sleep 5 && migrate -path migrations/ -database 'postgres://postgres:postgres@database_production:5432/mini_tweeter_db?sslmode=disable' up"]
-    restart: on-failure
-    depends_on:
-      - database_production
-    networks:
-      - Mini-Tweeter-network  
-
-  user_service_production:
-    container_name: Mini_Tweeter_users_service_production
+  tweet_service_production:
+    container_name: Mini_Tweeter_tweet_service_production
     build: 
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8082:8082"
+      - "8083:8083"
     environment:
       - ENVIRONMENT=develop
-      - RPC_PORT=8082
-      - HTTP_PORT=8008
+      - RPC_PORT=8083
+      - HTTP_PORT=8009
       - POSTGRES_HOST=database_production
       - POSTGRES_PORT=5432
       - POSTGRES_DATABASE=mini_tweeter_db
@@ -57,22 +24,6 @@ services:
     restart: on-failure
     networks:
       - Mini-Tweeter-network
-
-  redis_production:
-    image: redis:latest
-    container_name: Mini_Tweeter_redis_production
-    restart: always
-    ports:
-      - "7379:6379"
-    networks:
-      - Mini-Tweeter-network
-    command: ["redis-server", "--appendonly", "yes"]
-    volumes:
-      - redis_data_production:/data
-
-volumes:
-  redis_data_production:
-  postgres_data_production:
 
 networks:
   Mini-Tweeter-network:

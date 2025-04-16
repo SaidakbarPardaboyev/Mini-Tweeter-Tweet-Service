@@ -27,13 +27,13 @@ jobs:
 
             # Set the correct directory and docker-compose file based on branch
             if [[ "$BRANCH_NAME" == "master" ]]; then
-              DEPLOY_DIR=~/Mini-Tweeter/users_service/production
+              DEPLOY_DIR=~/Mini-Tweeter/tweet_service/production
               COMPOSE_FILE="docker-compose.production.yml"
-              CONTAINER_NAME="Mini_Tweeter_users_service_production"
+              CONTAINER_NAME="Mini_Tweeter_tweet_service_production"
             elif [[ "$BRANCH_NAME" == "develop" ]]; then
-              DEPLOY_DIR=~/Mini-Tweeter/users_service/staging
+              DEPLOY_DIR=~/Mini-Tweeter/tweet_service/staging
               COMPOSE_FILE="docker-compose.staging.yml"
-              CONTAINER_NAME="Mini_Tweeter_users_service_staging"
+              CONTAINER_NAME="Mini_Tweeter_tweet_service_staging"
             else
               echo "Not a deployment branch. Skipping deployment."
               exit 0

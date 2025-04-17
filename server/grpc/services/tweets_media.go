@@ -76,7 +76,7 @@ func (t *TweetMediasService) DeleteTweetMedia(ctx context.Context, in *pb.Delete
 }
 
 func (t *TweetMediasService) DeleteTweetMediaWithTweetID(ctx context.Context, in *pb.DeleteTweetMediaWithTweetIDRequest) (*pb.DeleteTweetMediaWithTweetIDResponse, error) {
-	err := t.storage.TweetMedias().DeleteTweetMedia(ctx, in.TweetId)
+	err := t.storage.TweetMedias().DeleteTweetMediaWithTweetID(ctx, in.TweetId)
 	if err != nil {
 		return &pb.DeleteTweetMediaWithTweetIDResponse{Success: false}, err
 	}

@@ -79,7 +79,7 @@ func (s *TweetsService) DeleteTweet(ctx context.Context, in *pb.DeleteTweetReque
 	}
 
 	err = s.storage.TweetMedias().DeleteTweetMediaWithTweetID(ctx, in.Id)
-	if err != nil {
+	if err != nil && err.Error() != "tweet medias not found with the tweet ID" {
 		return &pb.DeleteTweetResponse{Success: false}, err
 	}
 

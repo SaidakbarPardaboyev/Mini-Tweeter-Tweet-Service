@@ -32,7 +32,7 @@ func TestCreateTweetMedia(t *testing.T) {
 		t.Error(fmt.Errorf("error while connecting to database: %v", err))
 	}
 
-	resp, err := tweetMediaRepo.CreateTweetMedia(context.Background(), &pb.Media{
+	resp, err := tweetMediaRepo.CreateTweetMedia(context.Background(), &pb.TweetMedia{
 		TweetId:   "60800c51-03b3-4184-87bb-3daf82a2145d",
 		MediaType: "video",
 		Url:       "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -83,7 +83,7 @@ func TestUpdateTweetMedia(t *testing.T) {
 		t.Error(fmt.Errorf("error while connecting to database: %v", err))
 	}
 
-	err = tweetMediaRepo.UpdateTweetMedia(context.Background(), &pb.Media{
+	err = tweetMediaRepo.UpdateTweetMedia(context.Background(), &pb.TweetMedia{
 		Id:        "c32e6e62-af51-4bc9-b3b1-64dc9ce6bcdf",
 		TweetId:   "60800c51-03b3-4184-87bb-3daf82a2145d",
 		MediaType: "image",

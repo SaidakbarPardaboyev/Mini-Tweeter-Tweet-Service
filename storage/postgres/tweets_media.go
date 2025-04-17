@@ -25,7 +25,7 @@ func NewTweetMediaRepo(db *db.Postgres, log logger.Logger, cff *config.Config) r
 	return &tweetMedia{db: db, log: log, cff: cff}
 }
 
-func (t *tweetMedia) CreateTweetMedia(ctx context.Context, in *pb.Media) (string, error) {
+func (t *tweetMedia) CreateTweetMedia(ctx context.Context, in *pb.TweetMedia) (string, error) {
 	var (
 		id = uuid.New().String()
 
@@ -46,11 +46,11 @@ func (t *tweetMedia) CreateTweetMedia(ctx context.Context, in *pb.Media) (string
 	return id, nil
 }
 
-func (t *tweetMedia) GetTweetMedia(ctx context.Context, ID string) (*pb.Media, error) {
+func (t *tweetMedia) GetTweetMedia(ctx context.Context, ID string) (*pb.TweetMedia, error) {
 	query := static.GetTweetMediaByIDQuery
 
 	var (
-		tweetMedia pb.Media
+		tweetMedia pb.TweetMedia
 	)
 
 	err := t.db.Db.QueryRow(ctx, query, ID).Scan(
@@ -69,7 +69,7 @@ func (t *tweetMedia) GetTweetMedia(ctx context.Context, ID string) (*pb.Media, e
 	return &tweetMedia, nil
 }
 
-func (t *tweetMedia) GetListTweetMedia(ctx context.Context, tweetID string) (*[]*pb.Media, error) {
+func (t *tweetMedia) GetListTweetMedia(ctx context.Context, tweetID string) (*[]*pb.TweetMedia, error) {
 	var (
 		args      = []interface{}{tweetID}
 		queryBase = static.GetListTweetMediaBaseQuery
@@ -81,10 +81,10 @@ func (t *tweetMedia) GetListTweetMedia(ctx context.Context, tweetID string) (*[]
 	}
 	defer rows.Close()
 
-	var tweetMedias []*pb.Media
+	var tweetMedias []*pb.TweetMedia
 	for rows.Next() {
 		var (
-			tweetMedia pb.Media
+			tweetMedia pb.TweetMedia
 		)
 
 		err := rows.Scan(
@@ -108,7 +108,7 @@ func (t *tweetMedia) GetListTweetMedia(ctx context.Context, tweetID string) (*[]
 	return &tweetMedias, nil
 }
 
-func (t *tweetMedia) UpdateTweetMedia(ctx context.Context, in *pb.Media) error {
+func (t *tweetMedia) UpdateTweetMedia(ctx context.Context, in *pb.TweetMedia) error {
 	// Query to update tweet details
 	query := static.UpdateTweetMediaQuery
 

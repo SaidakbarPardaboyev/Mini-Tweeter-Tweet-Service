@@ -37,7 +37,7 @@ func TestCreateTweet(t *testing.T) {
 	resp, err := tweetsRepo.CreateTweet(context.Background(), &pb.Tweet{
 		Content:   "Saidakbar for test",
 		UserId:    "76c50a9f-8e3f-40d5-bf5b-efbd33084947",
-		Medias:    []*pb.Media{},
+		Medias:    []*pb.TweetMedia{},
 		CreatedAt: "",
 		UpdatedAt: "",
 	})
@@ -102,7 +102,7 @@ func TestUpdateTweet(t *testing.T) {
 		Id:      "60800c51-03b3-4184-87bb-3daf82a2145d",
 		Content: "Saidakbar for test for for",
 		UserId:  "76c50a9f-8e3f-40d5-bf5b-efbd33084947",
-		Medias:  []*pb.Media{},
+		Medias:  []*pb.TweetMedia{},
 	})
 
 	if err != nil {

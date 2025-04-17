@@ -19,7 +19,8 @@ import (
 )
 
 type GRPCService struct {
-	TweetsService pb.TweetsServiceServer
+	TweetsService      pb.TweetsServiceServer
+	TweetMediasService pb.TweetMediasServiceServer
 }
 
 func New(cfg *config.Config, log logger.Logger) (*GRPCService, error) {
@@ -43,7 +44,8 @@ func New(cfg *config.Config, log logger.Logger) (*GRPCService, error) {
 	}
 
 	return &GRPCService{
-		TweetsService: services.NewUsersService(serviceOptions),
+		TweetsService:      services.NewUsersService(serviceOptions),
+		TweetMediasService: services.NewTweetMediasService(serviceOptions),
 	}, nil
 }
 
@@ -51,6 +53,7 @@ func (service *GRPCService) Run(logger logger.Logger, cfg *config.Config) {
 	server := grpc.NewServer()
 
 	pb.RegisterTweetsServiceServer(server, service.TweetsService)
+	pb.RegisterTweetMediasServiceServer(server, service.TweetMediasService)
 
 	listener, err := net.Listen("tcp", ":"+cfg.RPCPort)
 	if err != nil {

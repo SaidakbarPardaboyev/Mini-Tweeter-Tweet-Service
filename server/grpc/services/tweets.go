@@ -33,14 +33,6 @@ func (s *TweetsService) CreateTweet(ctx context.Context, in *pb.CreateTweetReque
 		return nil, err
 	}
 
-	for _, media := range in.Tweet.Medias {
-		media.TweetId = tweetID
-		_, err := s.storage.TweetMedias().CreateTweetMedia(ctx, media)
-		if err != nil {
-			return nil, err
-		}
-	}
-
 	return &pb.CreateTweetResponse{Id: tweetID}, nil
 }
 
